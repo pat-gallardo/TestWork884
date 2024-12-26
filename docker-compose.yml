@@ -6,8 +6,8 @@ services:
         ports:
             - "8000:8000"
         environment:
-            - DATABASE_URL=postgres://postgres:postgres@db:5432/transactions_db
-            - REDIS_URL=redis://redis:6379/0
+            - DATABASE_URL=postgresql://postgres:mysecretpassword@localhost:5432/transactions_db
+            - REDIS_URL=redis://localhost:6379/0
             - API_KEY = secret_api_key
         depends_on:
             - db
@@ -18,7 +18,7 @@ services:
         command: celery -A app.tasks worker --loglevel=info
         environment:
             - DATABASE_URL=postgres://postgres:postgres@db:5432/transactions_db
-            - REDIS_URL=redis://redis:6379/0
+            - REDIS_URL=redis://localhost:6379/0
         depends_on:
             - redis
             - db
