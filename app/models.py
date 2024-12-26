@@ -1,4 +1,4 @@
-from SQLAlchemy import Column, Integer, String, Float, DateTime
+from sqlalchemy import Column, Integer, String, Float, DateTime
 from .database import Base
 
 class Transaction(Base):
