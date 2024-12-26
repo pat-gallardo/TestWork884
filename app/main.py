@@ -1,5 +1,5 @@
 from fastapi import FastAPI, Depends, HTTPException
-from SQLAlchemy.orm import Session
+from sqlalchemy.orm import Session
 from . import models, schemas, security
 from .database import engine, get_db
 from .tasks import update_statistics
@@ -40,5 +40,5 @@ async def get_statistics(
     db: Session = Depends(get_db),
     api_key: str = Depends(security.get_api_key)
 ):
-    stats = update_statistics.delay().get()
+    stats = update_statistics()
     return stats
