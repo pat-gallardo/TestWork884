@@ -2,8 +2,8 @@ from celery import Celery
 from .config import settings
 import heapq
 from .models import Transaction
-from SQLAlquemy import create_engine
-from SQLAlquemy.orm import sessionmaker
+from SQLAlchemy import create_engine
+from SQLAlchemy.orm import sessionmaker
 
 celery = Celery('tasks', broker=settings.REDIS_URL)
 
