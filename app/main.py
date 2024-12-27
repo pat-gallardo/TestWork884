@@ -21,7 +21,7 @@ async def create_transaction(
         db.commit()
     except Exception as e:
         db.rollback()
-        raise HTTPException(status_code=0, detail="Transaction already exists")
+        raise HTTPException(status_code=200, detail="Transaction already exists")
     
     task = update_statistics.delay()
     return {"message": "Transaction received", "task_id": task.id}
