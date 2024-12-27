@@ -8,12 +8,47 @@ on:
 jobs:
     test_pull_rquest:
         runs-on: ubuntu-latest
+
+        services:
+            postgres:
+                image: postgres:latest
+                ports:
+                    - 5432:5432
+                env:
+                    POSTGRES_USER: postgres
+                    POSTGRES_PASSWORD: postgres
+                    POSTGRES_DB: test_db
+
         steps:
-            - uses: actions/checkout@v2
-            - uses: actions/setup-python@v2
+            - name: Checkout code
+              uses: actions/checkout@v3
+
+            - name: Set up Python 3.9
+              uses: actions/setup-python@v4
               with:
                   python-version: '3.9'
-            - run: pip install -r requirements.txt
-            - run: pytest app/tests/tests_api.py
+
+            - name: Cache pip
+              uses: actions/cache@v3
+              with:
+                path: ~/.cache/pip
+                key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+                restore-keys: |
+                  ${{ runner.os }}-pip-
+
+            - name: Install dependencies
+              run: |
+                pip install -r requirements.txt
+            
+            - name: Set environment variables
+              env:
+                DATABASE_URL: postgresql://postgres:postgres@localhost:5432/test_db
+                REDIS_URL: redis://localhost:6379/0
+                API_KEY: test_key
+              run: echo "Set environment variables"
+
+            - name: Run tests
+              run: |
+                pytest app/tests/tests_api.py -s
 
 
