@@ -25,7 +25,7 @@ async def create_transaction(
     
     task = update_statistics.delay()
     return {"message": "Transaction received", "task_id": task.id}
-
+# Testing
 @app.delete("/transactions")
 async def delete_transactions(
     db: Session = Depends(get_db),
