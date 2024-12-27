@@ -9,16 +9,6 @@ jobs:
     test_pull_rquest:
         runs-on: ubuntu-latest
 
-        services:
-            postgres:
-                image: postgres:latest
-                ports:
-                    - 5432:5432
-                env:
-                    POSTGRES_USER: postgres
-                    POSTGRES_PASSWORD: postgres
-                    POSTGRES_DB: test_db
-
         steps:
             - name: Checkout code
               uses: actions/checkout@v3
@@ -39,13 +29,6 @@ jobs:
             - name: Install dependencies
               run: |
                 pip install -r requirements.txt
-            
-            - name: Set environment variables
-              env:
-                DATABASE_URL: postgresql://postgres:postgres@localhost:5432/test_db
-                REDIS_URL: redis://localhost:6379/0
-                API_KEY: test_key
-              run: echo "Set environment variables"
 
             - name: Run tests
               run: |
