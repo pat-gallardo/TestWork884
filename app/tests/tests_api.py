@@ -5,6 +5,13 @@ from ..main import app
 from ..config import settings
 from datetime import datetime
 
+# Fixture to set environment variables for tests
+@pytest.fixture(autouse=True)
+def set_env_vars(monkeypatch):
+    monkeypatch.setenv("DATABASE_URL", "postgresql://test_user:test_password@localhost:5432/test_db")
+    monkeypatch.setenv("REDIS_URL", "redis://localhost:6379/0")
+    monkeypatch.setenv("API_KEY", "test-api-key")
+
 client = TestClient(app)
 
 def test_create_transaction():
@@ -58,4 +65,3 @@ def test_delete_transaction():
     print("status_code: ", response.status_code)
     assert response.json()["message"] == "All transactions deleted"
     print("message: ", response.json().get("message"))
-
