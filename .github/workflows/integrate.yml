@@ -9,6 +9,16 @@ jobs:
     test_pull_rquest:
         runs-on: ubuntu-latest
 
+        services:
+            postgres:
+                image: postgres:latest
+                ports:
+                    - 5432:5432
+                env:
+                    POSTGRES_USER: postgres
+                    POSTGRES_PASSWORD: postgres
+                    POSTGRES_DB: test_db
+
         steps:
             - name: Checkout code
               uses: actions/checkout@v3
